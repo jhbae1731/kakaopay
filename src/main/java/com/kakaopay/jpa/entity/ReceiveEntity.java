@@ -44,7 +44,7 @@ public class ReceiveEntity{
 	private String room_id;
 	
 	@Column(name="user_id")
-	private String user_id;
+	private int user_id;
 	
 	@Column(name = "reg_date")
     private LocalDateTime reg_date = LocalDateTime.now();

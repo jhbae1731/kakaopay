@@ -52,7 +52,7 @@ public class ApiTests {
 	 @Autowired
 	 private ReceiveRepository receiveRepository;
 	 
-	 protected GiveEntity giveStub(String token, String room_id, String user_id, LocalDateTime date) {
+	 protected GiveEntity giveStub(String token, String room_id, int user_id, LocalDateTime date) {
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		QGiveEntity g = QGiveEntity.giveEntity;
 		
@@ -69,7 +69,7 @@ public class ApiTests {
 		return giveEntity;
      }
 	 
-	 protected List<ReceiveEntity> receiveStub(GiveEntity giveEntity, String room_id, String user_id) {
+	 protected List<ReceiveEntity> receiveStub(GiveEntity giveEntity, String room_id, int user_id) {
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		QReceiveEntity r = QReceiveEntity.receiveEntity;
 		
@@ -82,7 +82,7 @@ public class ApiTests {
 			ReceiveEntity receiveEntity = new ReceiveEntity(giveEntity, (int)moneyList.get(i), room_id);
 			
 			if(i==0) {
-				receiveEntity.setUser_id("user2");
+				receiveEntity.setUser_id(2);
 			}
 			
 			receiveRepository.save(receiveEntity);
@@ -94,7 +94,7 @@ public class ApiTests {
 		return entityList;
      }
 
-	 protected ResultActions give(String room_id, String user_id, int give_money, int people_count) throws Exception {
+	 protected ResultActions give(String room_id, int user_id, int give_money, int people_count) throws Exception {
 		ApiRequest request = new ApiRequest();
 		request.setGive_money(give_money);
 		request.setPeople_count(people_count);
@@ -111,7 +111,7 @@ public class ApiTests {
 		.andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
 	 }
 	 
-	 protected ResultActions receive(String token, String room_id, String user_id) throws Exception {
+	 protected ResultActions receive(String token, String room_id, int user_id) throws Exception {
 		return mockMvc.perform(
 		put("/kakaopay/api/" + token)
 		        .contentType(MediaType.APPLICATION_JSON)
@@ -124,7 +124,7 @@ public class ApiTests {
 		;
 	 }
 	
-	 protected ResultActions info(String token, String room_id, String user_id) throws Exception {
+	 protected ResultActions info(String token, String room_id, int user_id) throws Exception {
 		return mockMvc.perform(
 		get("/kakaopay/api/" + token)
 		        .contentType(MediaType.APPLICATION_JSON)

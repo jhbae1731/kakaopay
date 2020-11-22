@@ -21,7 +21,7 @@ class GiveApiTest extends ApiTests{
         request.setGive_money(50000);
         request.setPeople_count(8);
         
-        give("roomtest1", "usertest1", 50000, 8)
+        give("roomtest1", 1, 50000, 8)
 	        .andExpect(status().isCreated())
 	        .andExpect(header().exists(HttpHeaders.LOCATION))
 	        .andExpect(jsonPath("$.code", is("C001")))

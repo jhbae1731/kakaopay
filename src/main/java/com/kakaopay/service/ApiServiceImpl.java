@@ -38,7 +38,7 @@ public class ApiServiceImpl implements ApiService {
 	
 	@Transactional
 	@Override
-	public GiveEntity give(String room_id, String user_id, int give_money, int people_count) {
+	public GiveEntity give(String room_id, int user_id, int give_money, int people_count) {
 		TokenGeneration tokenGeneration = new TokenGeneration();
 		NumberUtil numberUtil = new NumberUtil();
 		
@@ -71,7 +71,7 @@ public class ApiServiceImpl implements ApiService {
 	
 	@Transactional
 	@Override
-	public ApiResponse receive(String room_id, String user_id, String token) {
+	public ApiResponse receive(String room_id, int user_id, String token) {
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		QReceiveEntity r = QReceiveEntity.receiveEntity;
 		QGiveEntity g = QGiveEntity.giveEntity;
@@ -116,7 +116,7 @@ public class ApiServiceImpl implements ApiService {
 		}
 		
 		//받기		
-		List<ReceiveEntity> receive_data = query.selectFrom(r).where(r.giveEntity.token.eq(token),r.user_id.isNull()).fetch();
+		List<ReceiveEntity> receive_data = query.selectFrom(r).where(r.giveEntity.token.eq(token),r.user_id.eq(0)).fetch();
 		
 		int seq = receive_data.get(0).getSeq();
 		query.update(r)
@@ -126,13 +126,13 @@ public class ApiServiceImpl implements ApiService {
 		int receive_money = query.selectFrom(r).where(r.seq.eq(seq)).fetchOne().getReceive_money();
 		ApiResponse apiResponse = new ApiResponse("C001");
 		apiResponse.setData(receive_money);
-		
+		System.out.println(1);
 		return apiResponse;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public ApiResponse info(String room_id, String user_id, String token) {
+	public ApiResponse info(String room_id, int user_id, String token) {
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		QReceiveEntity r = QReceiveEntity.receiveEntity;
 		QGiveEntity g = QGiveEntity.giveEntity;

@@ -17,24 +17,24 @@ class InfoApiTest extends ApiTests {
 	@DisplayName("뿌린 건에 대한 상태 호출")
 	void test001() throws Exception {
 		GiveEntity giveEntity = new GiveEntity();
-		giveEntity = giveStub("aaa", "room1", "user1", null);
-		receiveStub(giveEntity, "room1", "user1");
+		giveEntity = giveStub("aaa", "room1", 1, null);
+		receiveStub(giveEntity, "room1", 1);
 		
-		info("aaa", "room1", "user1") .andExpect(status().isOk())
+		info("aaa", "room1", 1) .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("C001")));
     }
 
 	@Test
 	@DisplayName("뿌린 본인만 호출 가능")
 	void test002() throws Exception {
-		info("aaa", "room1", "user2") .andExpect(status().isOk())
+		info("aaa", "room1", 2) .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("I001")));
     }
 	
 	@Test
 	@DisplayName("유효하지 않은 토큰값")
 	void test003() throws Exception {
-		info("ABC", "room1", "user1") .andExpect(status().isOk())
+		info("ABC", "room1", 1) .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("C003")));
     }
 	
@@ -42,10 +42,10 @@ class InfoApiTest extends ApiTests {
 	@DisplayName("7일동안 조회가능")
 	void test004() throws Exception {
 		GiveEntity giveEntity = new GiveEntity();
-		giveEntity = giveStub("bbb", "room1", "user1", LocalDateTime.now().minusDays(7));
-		receiveStub(giveEntity, "room1", "user1");
+		giveEntity = giveStub("bbb", "room1", 1, LocalDateTime.now().minusDays(7));
+		receiveStub(giveEntity, "room1", 1);
 		
-		info("bbb", "room1", "user1") .andExpect(status().isOk())
+		info("bbb", "room1", 1) .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("I002")));
     }
 }

@@ -35,7 +35,7 @@ public class ApiController {
 	
 	@PostMapping
 	ResponseEntity<ApiResponse> giveMoney(@RequestHeader(ROOM_ID) String room_id, 
-										@RequestHeader(USER_ID) String user_id,
+										@RequestHeader(USER_ID) int user_id,
 										@RequestBody ApiControllerRequest param,
 										UriComponentsBuilder b) {
 		ApiResponse apiResponse = new ApiResponse("C001");
@@ -62,7 +62,7 @@ public class ApiController {
 	
 	@PutMapping(value="/{token:[a-zA-Z0-9]{3}}")
 	ApiResponse receiveMoney(@RequestHeader(ROOM_ID) String room_id, 
-							@RequestHeader(USER_ID) String user_id,
+							@RequestHeader(USER_ID) int user_id,
 						    @PathVariable("token") String token) {
 		try {
 			logger.info("받기 시작!!");
@@ -77,7 +77,7 @@ public class ApiController {
 	
 	@GetMapping(value="/{token:[a-zA-Z0-9]{3}}")
 	ApiResponse infoMoney(@RequestHeader(ROOM_ID) String room_id, 
-							@RequestHeader(USER_ID) String user_id,
+							@RequestHeader(USER_ID) int user_id,
 							@PathVariable("token") String token) {
 		try {
 			logger.info("조회 시작!!");
