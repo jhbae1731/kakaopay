@@ -32,3 +32,14 @@
 ---
 ### Table
 ![image](https://user-images.githubusercontent.com/74831730/99899003-5b8e8100-2ce9-11eb-8276-62fbd24fcf60.png)
+
+---
+### API 명세
+- 공통사항
+해더
+
+| 항목         | 값 (예)          | 설명            |
+| ------------ | ---------------- | --------------- |
+| Content-Type | application/json | `JSON` 으로 요청 |
+| X-ROOM-ID    | A                | 대화방 식별값   |
+| X-USER-ID    | 12               | 사용자 식별값   |
