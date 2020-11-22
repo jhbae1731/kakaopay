@@ -1,6 +1,6 @@
 # 핵심문제해결 전략
 
-##설계
+---
 
 ### Lean Software Development & Prototype Model
 
