@@ -1,7 +1,7 @@
 # 핵심문제해결 전략
 
-### Reference Documentation
-For further reference, please consider the following sections:
+### 개발 방법론
+Lean Software Development:
 
 * [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
 * [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.4.0/maven-plugin/reference/html/)
