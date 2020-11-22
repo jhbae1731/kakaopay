@@ -28,3 +28,7 @@
 ### Data Flow
 
 ![image](https://user-images.githubusercontent.com/74831730/99898913-993eda00-2ce8-11eb-8ce2-67677e77a914.png)
+
+---
+### Table
+![image](https://user-images.githubusercontent.com/74831730/99899003-5b8e8100-2ce9-11eb-8276-62fbd24fcf60.png)
