@@ -31,7 +31,7 @@
 
 ---
 ### Table
-![image](https://user-images.githubusercontent.com/74831730/99899003-5b8e8100-2ce9-11eb-8276-62fbd24fcf60.png)
+![image](https://user-images.githubusercontent.com/74831730/99899895-eecab500-2cef-11eb-8b77-ef4f9dd54560.png)
 
 ---
 ### API 명세
