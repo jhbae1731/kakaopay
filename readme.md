@@ -1,4 +1,4 @@
-# Getting Started
+# 핵심문제해결 전략
 
 ### Reference Documentation
 For further reference, please consider the following sections:
