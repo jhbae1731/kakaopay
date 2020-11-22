@@ -97,7 +97,6 @@ public class ApiServiceImpl implements ApiService {
 			return new ApiResponse("R002");
 		}
 		
-		
 		//받은적이 없는지		
 		validationCount = (int)query.selectFrom(r).where(r.user_id.eq(user_id),r.giveEntity.token.eq(token)).fetchCount();
 		
@@ -108,14 +107,9 @@ public class ApiServiceImpl implements ApiService {
 		//10분 시간검증
 		LocalDateTime reg_date = query.selectFrom(g).where(g.token.eq(token)).fetchOne().getReg_date();
 
-		System.out.println(g.reg_date.before(LocalDateTime.now().minusMinutes(10)));
-		System.out.println(g.reg_date.before(LocalDateTime.now().plusMinutes(10)));
-		
 		DateUtil du = new DateUtil();
 		
 		dataValidation= du.isExpired(reg_date, "MIN", 10);
-		
-		System.out.println(dataValidation);
 		
 		if(dataValidation) {
 			return new ApiResponse("R004");
@@ -125,16 +119,12 @@ public class ApiServiceImpl implements ApiService {
 		List<ReceiveEntity> receive_data = query.selectFrom(r).where(r.giveEntity.token.eq(token),r.user_id.isNull()).fetch();
 		
 		int seq = receive_data.get(0).getSeq();
-		
 		query.update(r)
 				.set(r.user_id, user_id)
 				.where(r.giveEntity.token.eq(token),r.user_id.isNull(),r.seq.eq(seq))
 				.execute();
-		
 		int receive_money = query.selectFrom(r).where(r.seq.eq(seq)).fetchOne().getReceive_money();
-		
 		ApiResponse apiResponse = new ApiResponse("C001");
-		
 		apiResponse.setData(receive_money);
 		
 		return apiResponse;

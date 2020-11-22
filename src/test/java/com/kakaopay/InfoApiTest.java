@@ -16,7 +16,8 @@ class InfoApiTest extends ApiTests {
 	@Test
 	@DisplayName("뿌린 건에 대한 상태 호출")
 	void test001() throws Exception {
-		GiveEntity giveEntity = giveStub("aaa", "room1", "user1", null);
+		GiveEntity giveEntity = new GiveEntity();
+		giveEntity = giveStub("aaa", "room1", "user1", null);
 		receiveStub(giveEntity, "room1", "user1");
 		
 		info("aaa", "room1", "user1") .andExpect(status().isOk())
@@ -40,7 +41,8 @@ class InfoApiTest extends ApiTests {
 	@Test
 	@DisplayName("7일동안 조회가능")
 	void test004() throws Exception {
-		GiveEntity giveEntity = giveStub("bbb", "room1", "user1", LocalDateTime.now().minusDays(7));
+		GiveEntity giveEntity = new GiveEntity();
+		giveEntity = giveStub("bbb", "room1", "user1", LocalDateTime.now().minusDays(7));
 		receiveStub(giveEntity, "room1", "user1");
 		
 		info("bbb", "room1", "user1") .andExpect(status().isOk())

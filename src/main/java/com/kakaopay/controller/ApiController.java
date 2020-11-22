@@ -55,7 +55,7 @@ public class ApiController {
 			
 		}catch(Exception e) {
 			logger.error(e.getMessage());
-			apiResponse = new ApiResponse("C003");
+			apiResponse = new ApiResponse("C002");
 			return new ResponseEntity<>(apiResponse, headers, HttpStatus.CREATED);
 		}
 	}

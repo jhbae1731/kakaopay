@@ -6,7 +6,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -20,17 +23,23 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaopay.jpa.entity.GiveEntity;
+import com.kakaopay.jpa.entity.QGiveEntity;
+import com.kakaopay.jpa.entity.QReceiveEntity;
 import com.kakaopay.jpa.entity.ReceiveEntity;
 import com.kakaopay.jpa.repository.GiveRepository;
 import com.kakaopay.jpa.repository.ReceiveRepository;
 import com.kakaopay.request.ApiRequest;
 import com.kakaopay.util.NumberUtil;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 public class ApiTests {
+	 @Autowired
+     EntityManager em;
+	
 	 @Autowired
      protected MockMvc mockMvc;
 	 
@@ -44,13 +53,16 @@ public class ApiTests {
 	 private ReceiveRepository receiveRepository;
 	 
 	 protected GiveEntity giveStub(String token, String room_id, String user_id, LocalDateTime date) {
-		GiveEntity giveEntity = new GiveEntity(token ,room_id, user_id, 7, 1000000);
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		QGiveEntity g = QGiveEntity.giveEntity;
+		
+		GiveEntity giveEntity = new GiveEntity(token ,room_id, user_id, 3, 1000000);
 		if(date != null) {
 			giveEntity.setReg_date(date);
 		}
 		giveRepository.save(giveEntity);
 		
-		List<GiveEntity> entityList = giveRepository.findAll();
+		List<GiveEntity> entityList = query.selectFrom(g).where(g.token.eq(token)).fetch();
 		
 		giveEntity = entityList.get(0);
 		
@@ -58,10 +70,13 @@ public class ApiTests {
      }
 	 
 	 protected List<ReceiveEntity> receiveStub(GiveEntity giveEntity, String room_id, String user_id) {
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		QReceiveEntity r = QReceiveEntity.receiveEntity;
+		
 		NumberUtil numberUtil = new NumberUtil();
 		 
 		List<Integer> moneyList = numberUtil.moneyDivision(giveEntity.getGive_money(), giveEntity.getPeople_count(), 0.3);
-			
+		
 		int i = 0;
 		for(i=0; i<moneyList.size(); i++) {
 			ReceiveEntity receiveEntity = new ReceiveEntity(giveEntity, (int)moneyList.get(i), room_id);
@@ -73,7 +88,9 @@ public class ApiTests {
 			receiveRepository.save(receiveEntity);
 		}
 		
-		List<ReceiveEntity> entityList = receiveRepository.findAll();
+		List<ReceiveEntity> entityList = new ArrayList<ReceiveEntity>();
+		entityList = query.selectFrom(r).where(r.giveEntity.token.eq(giveEntity.getToken())).fetch();
+		
 		return entityList;
      }
 

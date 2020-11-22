@@ -17,10 +17,12 @@ class ReceiveApiTest extends ApiTests{
 	@Test
 	@DisplayName("뿌린 금액 받기")
 	void test001() throws Exception {
-		GiveEntity giveEntity = giveStub("aaa", "room1", "user1", null);
+		GiveEntity giveEntity = new GiveEntity();
+		giveEntity = giveStub("ccc", "room1", "user1", null);
+		
 		List<ReceiveEntity> receiveList = receiveStub(giveEntity, "room1", "user1");
 		
-		receive("aaa", "room1", "user3") .andExpect(status().isOk())
+		receive("ccc", "room1", "user3") .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("C001")))
 		.andExpect(jsonPath("$.data").value(receiveList.get(1).getReceive_money()));
     }
@@ -28,31 +30,32 @@ class ReceiveApiTest extends ApiTests{
 	@Test
 	@DisplayName("한번만 받을 수 있음")
 	void test002() throws Exception {
-		receive("aaa", "room1", "user2") .andExpect(status().isOk())
+		receive("ccc", "room1", "user2") .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("R003")));
     }
 	
 	@Test
 	@DisplayName("자신이 뿌린건 받을 수 없음")
 	void test003() throws Exception {
-		receive("aaa", "room1", "user1") .andExpect(status().isOk())
+		receive("ccc", "room1", "user1") .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("R001")));
     }
 	
 	@Test
 	@DisplayName("대화방이 같아야됨")
 	void test004() throws Exception {
-		receive("aaa", "room2", "user3") .andExpect(status().isOk())
+		receive("ccc", "room2", "user3") .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("R002")));
     }
 	
 	@Test
 	@DisplayName("뿌린건은 10분간만 유효")
 	void test005() throws Exception {
-		GiveEntity giveEntity = giveStub("bbb", "room1", "user1", LocalDateTime.now().minusMinutes(11));
+		GiveEntity giveEntity = new GiveEntity();
+		giveEntity = giveStub("ddd", "room1", "user1", LocalDateTime.now().minusMinutes(11));
 		receiveStub(giveEntity, "room1", "user1");
 		
-		receive("bbb", "room1", "user3") .andExpect(status().isOk())
+		receive("ddd", "room1", "user3") .andExpect(status().isOk())
 		.andExpect(jsonPath("$.code", is("R004")));
     }
 }

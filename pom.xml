@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kakaopay</name>
 	<description>kakaopay</description>
+	<packaging>jar</packaging>
 	
 	<properties>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
@@ -79,6 +80,13 @@
                 </execution>
             </executions>
         </plugin>
+        <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-surefire-plugin</artifactId>
+		    <configuration>
+		        <testFailureIgnore>true</testFailureIgnore>
+		    </configuration>
+		</plugin>
     </plugins>
 </build>
 
